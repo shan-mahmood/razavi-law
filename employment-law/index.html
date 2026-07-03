@@ -64,7 +64,7 @@ header{position:sticky;top:0;z-index:50;background:var(--black);border-bottom:1p
 .nav-right{display:flex;align-items:center;gap:22px}
 .nav-phone{color:#fff;text-decoration:none;font-weight:600;font-size:16px;font-family:var(--font-display);white-space:nowrap}
 .nav-phone small{display:block;color:var(--muted-dark);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
-.nav-call{display:none;gap:8px;padding:11px 18px;font-size:15px}
+.nav-call{display:none;gap:8px;padding:11px 18px;font-size:15px;white-space:nowrap}
 .nav-call svg{width:18px;height:18px;flex:none}
 
 /* ---------- HERO (imposing brand statement) ---------- */
@@ -240,10 +240,15 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
   .section{padding:52px 0}
 }
 @media(max-width:560px){
+  .wrap{padding:0 18px}
   .row2{grid-template-columns:1fr}
+  .nav{height:64px}
+  .nav-right{gap:12px}
+  .brand svg{height:25px}
   .nav-phone{display:none}
   .nav-review{display:none}
-  .nav-call{display:inline-flex}
+  .nav-call{display:inline-flex;font-size:14px;padding:9px 13px;gap:7px}
+  .nav-call svg{width:16px;height:16px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -267,7 +272,7 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
     <div class="nav-right">
       <a class="nav-phone" href="tel:+18665268009"><small>Free consultation</small>(866) 526-8009</a>
       <a class="btn nav-review" href="#check">Free Case Review</a>
-      <a class="btn nav-call" href="tel:+18665268009"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call (866) 526-8009</a>
+      <a class="btn nav-call" href="tel:+18665268009"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>(866) 526-8009</span></a>
     </div>
   </div>
 </header>
