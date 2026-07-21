@@ -473,18 +473,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="rev-grid">
       <div class="rev">
         <span class="stars dark"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg></span>
-        <p>“[Replace with a real Google review] They took my case seriously when I felt like no one else would, and kept me informed the whole way.”</p>
-        <div class="who"><div class="av">—</div><div><b>Client name</b><small>Verified Google review</small></div></div>
+        <p>“I Had the best experience with the Razavi Law Group team. They were very helpful and understanding. Excellent communication with them always. They made sure to help and guide me through the entire process and made me feel really safe and comfortable in their hands.”</p>
+        <div class="who"><div class="av">—</div><div><b>Ashley Estrada</b><small>Verified Google review</small></div></div>
       </div>
       <div class="rev">
         <span class="stars dark"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg></span>
-        <p>“[Replace with a real Google review] Professional, responsive, and genuinely on my side from start to finish.”</p>
-        <div class="who"><div class="av">—</div><div><b>Client name</b><small>Verified Google review</small></div></div>
+        <p>“Razavi Law is all about helping their clients. I can't say enough good things about all of the people I have met.”</p>
+        <div class="who"><div class="av">—</div><div><b>Wendy Allen</b><small>Verified Google review</small></div></div>
       </div>
       <div class="rev">
         <span class="stars dark"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg></span>
-        <p>“[Replace with a real Google review] No upfront cost and they handled everything so I could focus on finding new work.”</p>
-        <div class="who"><div class="av">—</div><div><b>Client name</b><small>Verified Google review</small></div></div>
+        <p>“sonya was my attorney and thank you for doing my case.”</p>
+        <div class="who"><div class="av">—</div><div><b>Samantha Sabedra</b><small>Verified Google review</small></div></div>
       </div>
     </div>
     <div class="google-badge"><b>5.0</b> &nbsp;average across hundreds of Google reviews</div>
@@ -615,9 +615,72 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if(cur==='redirect'||cur==='2')show(1);else if(cur==='3')show(2);else if(cur==='4')show(3);
     });
   });
-  document.querySelector('[data-submit]').addEventListener('click',()=>{
-    const payload={status:answers.q1,timing:answers.q2,triggers:[...answers.q3]};
-    console.log('LEAD PAYLOAD →',payload);show('done');
+  // ---- HubSpot Forms submission ----
+  const HS_PORTAL_ID='245648267';
+  const HS_FORM_ID='b2d7ca38-66fe-4e10-88b0-04fa64b16523';
+  const HS_ENDPOINT='https://api.hsforms.com/submissions/v3/integration/submit/'+HS_PORTAL_ID+'/'+HS_FORM_ID;
+  // Human-readable labels for the button selections so HubSpot stores meaningful values.
+  const Q1_LABELS={fired:'Fired or terminated',laidoff:'Laid off',forced:'Forced to resign / pushed out',quit:'Quit voluntarily',employed:'Still employed'};
+  const Q2_LABELS={'30d':'Within the last 30 days','6m':'1–6 months ago','12m':'6–12 months ago','2y':'1–3 years ago',old:'More than 3 years ago'};
+  const Q3_LABELS={discrimination:'Discrimination (age/race/gender/religion/disability/pregnancy)',retaliation:'Retaliation after reporting misconduct',medical:'Medical/disability leave or injury',wages:'Unpaid wages, overtime, or breaks',harassment:'Sexual harassment / hostile work environment',none:'None / not sure'};
+
+  const submitBtn=document.querySelector('[data-submit]');
+  const step4=document.querySelector('.qstep[data-step="4"]');
+  const fFirst=step4.querySelector('input[autocomplete="given-name"]');
+  const fLast=step4.querySelector('input[autocomplete="family-name"]');
+  const fPhone=step4.querySelector('input[type="tel"]');
+  const fEmail=step4.querySelector('input[type="email"]');
+  const fDesc=step4.querySelector('textarea');
+
+  // Inline status message for errors (inserted above the microcopy, hidden until needed).
+  const errEl=document.createElement('p');
+  errEl.className='microcopy';
+  errEl.style.cssText='color:#c0392b;display:none';
+  errEl.setAttribute('role','alert');
+  submitBtn.closest('.nav-btns').insertAdjacentElement('afterend',errEl);
+  function showErr(msg){errEl.textContent=msg;errEl.style.display='block';}
+  function clearErr(){errEl.style.display='none';}
+
+  submitBtn.addEventListener('click',()=>{
+    clearErr();
+    const positives=[...answers.q3].filter(x=>x!=='none');
+    const fields=[
+      {name:'firstname',value:(fFirst.value||'').trim()},
+      {name:'lastname',value:(fLast.value||'').trim()},
+      {name:'phone',value:(fPhone.value||'').trim()},
+      {name:'email',value:(fEmail.value||'').trim()},
+      {name:'what_best_describes_why_youre_requesting_the_audit',value:(fDesc.value||'').trim()},
+      {name:'case_situation',value:Q1_LABELS[answers.q1]||answers.q1||''},
+      {name:'case_timeline',value:Q2_LABELS[answers.q2]||answers.q2||''},
+      {name:'case_issue',value:positives.map(x=>Q3_LABELS[x]||x).join('; ')}
+    ].filter(f=>f.value!=='');
+    const body={
+      submittedAt:Date.now(),
+      fields:fields,
+      context:{pageUri:window.location.href,pageName:document.title}
+    };
+    submitBtn.disabled=true;
+    const origLabel=submitBtn.textContent;
+    submitBtn.textContent='Submitting…';
+    fetch(HS_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    }).then(res=>{
+      if(res.ok)return null;
+      return res.json().catch(()=>({})).then(data=>{throw data;});
+    }).then(()=>{
+      show('done');
+    }).catch(err=>{
+      submitBtn.disabled=false;
+      submitBtn.textContent=origLabel;
+      let msg='Something went wrong submitting your request. Please try again, or call (949) 882-9213.';
+      if(err&&Array.isArray(err.errors)&&err.errors.length){
+        const invalidEmail=err.errors.some(e=>String(e.errorType||'').indexOf('EMAIL')>-1||/email/i.test(e.message||''));
+        if(invalidEmail)msg='Please enter a valid email address so we can reach you.';
+      }
+      showErr(msg);
+    });
   });
   document.querySelectorAll('.acc-q').forEach(q=>{
     q.addEventListener('click',()=>{
