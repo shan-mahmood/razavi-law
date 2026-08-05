@@ -8,6 +8,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KF7D6SH');</script>
 <!-- End Google Tag Manager -->
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245648267.js"></script>
+<!-- End of HubSpot Embed Code -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wrongfully Fired in California? | Razavi Law Group</title>
@@ -370,7 +373,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="field"><label>First name</label><input type="text" autocomplete="given-name"></div>
               <div class="field"><label>Last name</label><input type="text" autocomplete="family-name"></div>
             </div>
-            <div class="field"><label>Phone</label><input type="tel" autocomplete="tel" placeholder="(___) ___-____"></div>
+            <div class="field"><label>Phone <span aria-hidden="true">*</span></label><input type="tel" autocomplete="tel" placeholder="(___) ___-____" required aria-required="true"></div>
             <div class="field"><label>Email</label><input type="email" autocomplete="email"></div>
             <div class="field"><label>Briefly, what happened? (optional)</label><textarea rows="3"></textarea></div>
             <div class="nav-btns"><button class="back" data-back>Back</button><button class="btn btn--block" data-submit>Request my free case review</button></div>
@@ -643,6 +646,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   submitBtn.addEventListener('click',()=>{
     clearErr();
+    if(!(fPhone.value||'').trim()){showErr('Please enter your phone number so we can reach you.');fPhone.focus();return;}
     const positives=[...answers.q3].filter(x=>x!=='none');
     const fields=[
       {name:'firstname',value:(fFirst.value||'').trim()},
