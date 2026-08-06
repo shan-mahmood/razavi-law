@@ -674,7 +674,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if(res.ok)return null;
       return res.json().catch(()=>({})).then(data=>{throw data;});
     }).then(()=>{
-      show('done');
+      window.location.assign('/meta-employment/thank-you');
     }).catch(err=>{
       submitBtn.disabled=false;
       submitBtn.textContent=origLabel;
