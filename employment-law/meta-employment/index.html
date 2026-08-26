@@ -749,6 +749,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if(res.ok)return null;
       return res.json().catch(()=>({})).then(data=>{throw data;});
     }).then(()=>{
+      try{var _e=(fEmail.value||'').trim().toLowerCase();var _pd=(fPhone.value||'').replace(/\D/g,'');var _p=_pd?(_pd.length===10?'+1'+_pd:((_pd.charAt(0)==='1'&&_pd.length===11)?'+'+_pd:'+'+_pd)):'';var _ud={};if(_e)_ud.email=_e;if(_p)_ud.phone_number=_p;if(_e||_p){try{sessionStorage.setItem('rlg_ec',JSON.stringify(_ud));}catch(e){}}}catch(e){}
       window.location.assign('/meta-employment/thank-you');
     }).catch(err=>{
       submitBtn.disabled=false;
