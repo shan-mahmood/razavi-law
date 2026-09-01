@@ -8,8 +8,59 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KF7D6SH');</script>
 <!-- End Google Tag Manager -->
-<!-- Enhanced conversions for leads: surface lead-form user data for the Google Ads conversion tag -->
-<script>(function(){try{var ec=JSON.parse(sessionStorage.getItem('rlg_ec')||'null');if(ec&&(ec.email||ec.phone_number)){window.dataLayer=window.dataLayer||[];if(typeof gtag==='function'){gtag('set','user_data',ec);}window.dataLayer.push({event:'enhanced_conversion_data',user_data:ec});sessionStorage.removeItem('rlg_ec');}}catch(e){}})();</script>
+<!-- Google tag (gtag.js) — Google Ads, manual enhanced conversions -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-561636153"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','AW-561636153',{allow_enhanced_conversions:true});
+</script>
+<!-- Google Ads enhanced conversions helper (RLG_EC) -->
+<script>
+window.RLG_EC=(function(){
+  var KEY='rlg_ec';
+  function s(v){return (v==null?'':String(v)).trim();}
+  // Normalise a phone number to E.164 (assumes US when no country code is given).
+  function phone(v){
+    var t=s(v);if(!t)return '';
+    if(t.charAt(0)==='+'){var kept='+'+t.slice(1).replace(/\D/g,'');return kept.length>1?kept:'';}
+    var d=t.replace(/\D/g,'');if(!d)return '';
+    if(d.length===10)return '+1'+d;
+    if(d.length===11&&d.charAt(0)==='1')return '+'+d;
+    return '+'+d;
+  }
+  // Build the Google Ads user_data payload from raw contact fields.
+  function build(f){
+    f=f||{};var data={};
+    var email=s(f.email).toLowerCase();if(email)data.email=email;
+    var ph=phone(f.phone!=null?f.phone:f.phone_number);if(ph)data.phone_number=ph;
+    var first=s(f.first_name),last=s(f.last_name),
+        postal=s(f.postal_code!=null?f.postal_code:f.zip),country=s(f.country);
+    // Address is only sent when the full identifying set is present.
+    if(first&&last&&postal&&country){
+      var addr={first_name:first,last_name:last,postal_code:postal,country:country};
+      var street=s(f.street),city=s(f.city),region=s(f.region!=null?f.region:f.state);
+      if(street)addr.street=street;if(city)addr.city=city;if(region)addr.region=region;
+      data.address=addr;
+    }
+    return data;
+  }
+  function save(f){try{var d=build(f);if(d.email||d.phone_number)sessionStorage.setItem(KEY,JSON.stringify(d));return d;}catch(e){return null;}}
+  function load(){try{return JSON.parse(sessionStorage.getItem(KEY)||'null');}catch(e){return null;}}
+  function clear(){try{sessionStorage.removeItem(KEY);}catch(e){}}
+  // Hand the user_data to the Google Ads conversion tag (GTM counts the conversion).
+  function fire(data){
+    if(!data||(!data.email&&!data.phone_number))return;
+    window.dataLayer=window.dataLayer||[];
+    if(typeof gtag==='function')gtag('set','user_data',data);
+    window.dataLayer.push({event:'enhanced_conversion_data',user_data:data});
+  }
+  return {build:build,save:save,load:load,clear:clear,fire:fire};
+})();
+</script>
+<!-- Google Ads enhanced conversions: fire the saved lead's user_data, then clear it -->
+<script>(function(){try{var d=RLG_EC.load();if(d){RLG_EC.fire(d);RLG_EC.clear();}}catch(e){}})();</script>
 
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245648267.js"></script>

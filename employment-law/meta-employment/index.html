@@ -8,6 +8,57 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KF7D6SH');</script>
 <!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) — Google Ads, manual enhanced conversions -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-561636153"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','AW-561636153',{allow_enhanced_conversions:true});
+</script>
+<!-- Google Ads enhanced conversions helper (RLG_EC) -->
+<script>
+window.RLG_EC=(function(){
+  var KEY='rlg_ec';
+  function s(v){return (v==null?'':String(v)).trim();}
+  // Normalise a phone number to E.164 (assumes US when no country code is given).
+  function phone(v){
+    var t=s(v);if(!t)return '';
+    if(t.charAt(0)==='+'){var kept='+'+t.slice(1).replace(/\D/g,'');return kept.length>1?kept:'';}
+    var d=t.replace(/\D/g,'');if(!d)return '';
+    if(d.length===10)return '+1'+d;
+    if(d.length===11&&d.charAt(0)==='1')return '+'+d;
+    return '+'+d;
+  }
+  // Build the Google Ads user_data payload from raw contact fields.
+  function build(f){
+    f=f||{};var data={};
+    var email=s(f.email).toLowerCase();if(email)data.email=email;
+    var ph=phone(f.phone!=null?f.phone:f.phone_number);if(ph)data.phone_number=ph;
+    var first=s(f.first_name),last=s(f.last_name),
+        postal=s(f.postal_code!=null?f.postal_code:f.zip),country=s(f.country);
+    // Address is only sent when the full identifying set is present.
+    if(first&&last&&postal&&country){
+      var addr={first_name:first,last_name:last,postal_code:postal,country:country};
+      var street=s(f.street),city=s(f.city),region=s(f.region!=null?f.region:f.state);
+      if(street)addr.street=street;if(city)addr.city=city;if(region)addr.region=region;
+      data.address=addr;
+    }
+    return data;
+  }
+  function save(f){try{var d=build(f);if(d.email||d.phone_number)sessionStorage.setItem(KEY,JSON.stringify(d));return d;}catch(e){return null;}}
+  function load(){try{return JSON.parse(sessionStorage.getItem(KEY)||'null');}catch(e){return null;}}
+  function clear(){try{sessionStorage.removeItem(KEY);}catch(e){}}
+  // Hand the user_data to the Google Ads conversion tag (GTM counts the conversion).
+  function fire(data){
+    if(!data||(!data.email&&!data.phone_number))return;
+    window.dataLayer=window.dataLayer||[];
+    if(typeof gtag==='function')gtag('set','user_data',data);
+    window.dataLayer.push({event:'enhanced_conversion_data',user_data:data});
+  }
+  return {build:build,save:save,load:load,clear:clear,fire:fire};
+})();
+</script>
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245648267.js"></script>
 <!-- End of HubSpot Embed Code -->
@@ -749,7 +800,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if(res.ok)return null;
       return res.json().catch(()=>({})).then(data=>{throw data;});
     }).then(()=>{
-      try{var _e=(fEmail.value||'').trim().toLowerCase();var _pd=(fPhone.value||'').replace(/\D/g,'');var _p=_pd?(_pd.length===10?'+1'+_pd:((_pd.charAt(0)==='1'&&_pd.length===11)?'+'+_pd:'+'+_pd)):'';var _ud={};if(_e)_ud.email=_e;if(_p)_ud.phone_number=_p;if(_e||_p){try{sessionStorage.setItem('rlg_ec',JSON.stringify(_ud));}catch(e){}}}catch(e){}
+      // Save the lead's user_data for Google Ads enhanced conversions; fired on the thank-you page.
+      try{RLG_EC.save({first_name:fFirst.value,last_name:fLast.value,email:fEmail.value,phone:fPhone.value});}catch(e){}
       window.location.assign('/meta-employment/thank-you');
     }).catch(err=>{
       submitBtn.disabled=false;
