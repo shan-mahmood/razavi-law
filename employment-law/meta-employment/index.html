@@ -683,7 +683,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.querySelectorAll('[data-q1]').forEach(function(x){x.classList.remove('sel');});
       b.classList.add('sel');
       hsSubmitPartial();
-      setTimeout(function(){show(2);},110);
+      // Disqualify people who quit voluntarily or are still employed — route them to a call.
+      if(answers.q1==='quit'||answers.q1==='employed'){
+        if(answers.q1==='employed'){setRedirect("Still employed? Let's talk directly.","This review is built for people who've already been let go. If you're facing harassment or retaliation right now, our team can help by phone.");}
+        else{setRedirect("Resigned on your own? A quick call is best.","If you truly left voluntarily there may not be a claim — but if you were pressured or something improper happened, call and we'll take a closer look.");}
+        show('redirect');
+      }else{setTimeout(function(){show(2);},110);}
     });
   });
   document.querySelectorAll('[data-q2]').forEach(function(b){
@@ -692,7 +697,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.querySelectorAll('[data-q2]').forEach(function(x){x.classList.remove('sel');});
       b.classList.add('sel');
       hsSubmitPartial();
-      setTimeout(function(){show(3);},110);
+      // Disqualify matters older than ~3 years (likely time-barred) — route them to a call.
+      if(answers.q2==='old'){
+        setRedirect("This may be past the filing deadline.","California has strict deadlines, and claims older than about three years are usually time-barred. If you'd like us to double-check your specific dates, give us a call.");
+        show('redirect');
+      }else{setTimeout(function(){show(3);},110);}
     });
   });
   document.querySelectorAll('[data-q3]').forEach(b=>{
@@ -705,6 +714,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   });
   document.querySelector('[data-next3]').addEventListener('click',function(){
     hsSubmitPartial();
+    // Disqualify when no qualifying issue was selected — route them to a call.
+    var positives=[...answers.q3].filter(function(x){return x!=='none';});
+    if(positives.length===0){
+      setRedirect("Let's talk it through.","Based on what you selected, this one is best sorted out in a quick call so we can find out whether there's a claim. Our intake team can help.");
+      show('redirect');
+      return;
+    }
     good.style.display='block';
     show(4);
   });
