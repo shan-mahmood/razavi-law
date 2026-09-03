@@ -697,9 +697,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.querySelectorAll('[data-q2]').forEach(function(x){x.classList.remove('sel');});
       b.classList.add('sel');
       hsSubmitPartial();
-      // Disqualify matters older than ~3 years (likely time-barred) — route them to a call.
-      if(answers.q2==='old'){
-        setRedirect("This may be past the filing deadline.","California has strict deadlines, and claims older than about three years are usually time-barred. If you'd like us to double-check your specific dates, give us a call.");
+      // Disqualify matters older than a year (approaching filing deadlines) — route them to a call.
+      if(answers.q2==='2y'||answers.q2==='old'){
+        setRedirect("This may be past the filing deadline.","California has strict deadlines, and older claims can be time-barred. If you'd like us to double-check your specific dates, give us a call.");
         show('redirect');
       }else{setTimeout(function(){show(3);},110);}
     });
