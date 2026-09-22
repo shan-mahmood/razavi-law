@@ -734,10 +734,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const HS_PORTAL_ID='245648267';
   const HS_FORM_ID='b2d7ca38-66fe-4e10-88b0-04fa64b16523';
   const HS_ENDPOINT='https://api.hsforms.com/submissions/v3/integration/submit/'+HS_PORTAL_ID+'/'+HS_FORM_ID;
-  // Human-readable labels for the button selections so HubSpot stores meaningful values.
-  const Q1_LABELS={fired:'Fired or terminated',laidoff:'Laid off',forced:'Forced to resign / pushed out',quit:'Quit voluntarily',employed:'Still employed'};
-  const Q2_LABELS={'30d':'Within the last 30 days','6m':'1–6 months ago','12m':'6–12 months ago','2y':'1–3 years ago',old:'More than 3 years ago'};
-  const Q3_LABELS={discrimination:'Discrimination (age/race/gender/religion/disability/pregnancy)',retaliation:'Retaliation after reporting misconduct',medical:'Medical/disability leave or injury',wages:'Unpaid wages, overtime, or breaks',harassment:'Sexual harassment / hostile work environment',none:'None / not sure'};
+  // Exact option values of the HubSpot contact dropdowns intake_situation / intake_timeline / intake_issue.
+  // Must match the property options character-for-character or HubSpot rejects the submission.
+  const Q1_LABELS={fired:'I was Fired or Terminated',laidoff:'I was Laid Off',forced:'I was Forced to Resign / Pushed Out',quit:'I Quit Voluntarily',employed:"I'm Still Employed There"};
+  const Q2_LABELS={'30d':'Within the Last 30 Days','6m':'1 - 6 Months Ago','12m':'6 -12 Months Ago','2y':'1 - 3 Years ago',old:'More Than 3 Years Ago'};
+  const Q3_LABELS={discrimination:'Fired over my age, race, gender, religion, disability, or pregnancy',retaliation:'Fired after I reported harassment, discrimination, or something illegal',medical:'Fired after requesting medical/disability leave or an injury',wages:'Denied owed wages, overtime, or legally required breaks',harassment:'Experienced sexual harassment or a hostile work environment',none:"None of these / I'm not sure"};
+  // Multiple-checkbox value: HubSpot expects option values joined with ';'.
+  function q3Value(){return [...answers.q3].map(function(x){return Q3_LABELS[x];}).filter(Boolean).join(';');}
 
   const submitBtn=document.querySelector('[data-submit]');
   const step4=document.querySelector('.qstep[data-step="4"]');
@@ -751,16 +754,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function getHutk(){var m=document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]+)/);return m?m[1]:'';}
   // Build the HubSpot field list from whatever the visitor has answered/entered so far.
   function buildFields(){
-    var positives=[...answers.q3].filter(function(x){return x!=='none';});
     var raw=[
       {name:'firstname',value:(fFirst.value||'').trim()},
       {name:'lastname',value:(fLast.value||'').trim()},
       {name:'phone',value:(fPhone.value||'').trim()},
       {name:'email',value:(fEmail.value||'').trim()},
       {name:'what_best_describes_why_youre_requesting_the_audit',value:(fDesc.value||'').trim()},
-      {name:'case_situation',value:answers.q1?(Q1_LABELS[answers.q1]||answers.q1):''},
-      {name:'case_timeline',value:answers.q2?(Q2_LABELS[answers.q2]||answers.q2):''},
-      {name:'case_issue',value:answers.q3.size?positives.map(function(x){return Q3_LABELS[x]||x;}).join('; '):''}
+      {name:'intake_summary',value:(fDesc.value||'').trim()},
+      {name:'intake_situation',value:Q1_LABELS[answers.q1]||''},
+      {name:'intake_timeline',value:Q2_LABELS[answers.q2]||''},
+      {name:'intake_issue',value:q3Value()}
     ];
     return raw.filter(function(f){return f.value!=='';});
   }
@@ -789,16 +792,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   submitBtn.addEventListener('click',()=>{
     clearErr();
     if(!(fPhone.value||'').trim()){showErr('Please enter your phone number so we can reach you.');fPhone.focus();return;}
-    const positives=[...answers.q3].filter(x=>x!=='none');
     const fields=[
       {name:'firstname',value:(fFirst.value||'').trim()},
       {name:'lastname',value:(fLast.value||'').trim()},
       {name:'phone',value:(fPhone.value||'').trim()},
       {name:'email',value:(fEmail.value||'').trim()},
       {name:'what_best_describes_why_youre_requesting_the_audit',value:(fDesc.value||'').trim()},
-      {name:'case_situation',value:Q1_LABELS[answers.q1]||answers.q1||''},
-      {name:'case_timeline',value:Q2_LABELS[answers.q2]||answers.q2||''},
-      {name:'case_issue',value:positives.map(x=>Q3_LABELS[x]||x).join('; ')}
+      {name:'intake_summary',value:(fDesc.value||'').trim()},
+      {name:'intake_situation',value:Q1_LABELS[answers.q1]||''},
+      {name:'intake_timeline',value:Q2_LABELS[answers.q2]||''},
+      {name:'intake_issue',value:q3Value()}
     ].filter(f=>f.value!=='');
     const body={
       submittedAt:Date.now(),
