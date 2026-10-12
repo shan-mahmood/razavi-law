@@ -520,7 +520,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h3 data-rtitle>Let's talk directly.</h3>
             <p data-rbody>Your situation may still qualify, but it's best handled by phone with our intake team.</p>
             <a class="btn ph-open" href="tel:+19497498264">Call (949) 749-8264</a>
-            <p class="ph-closed redirect-hours">Our intake line is open Monday–Friday, <span style="white-space:nowrap">9am–5pm</span> Pacific. Check back during those hours to reach us by phone.</p>
+            <div class="ph-closed">
+              <p class="redirect-hours">Our intake line is closed right now (open Monday–Friday, <span style="white-space:nowrap">9am–5pm</span> Pacific). Leave your number and our team will call you back.</p>
+              <button class="btn" data-callback>Request a call back</button>
+            </div>
             <div class="nav-btns" style="justify-content:center;margin-top:14px"><button class="back" data-back>Back</button></div>
           </div>
         </div>
@@ -528,7 +531,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="result-ok">
             <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></div>
             <h3>Request received.</h3>
-            <p>An attorney from Razavi Law Group will contact you shortly. <span class="ph-open">If it's urgent, call <b>(949) 749-8264</b>.</span></p>
+            <p data-donemsg>An attorney from Razavi Law Group will contact you shortly. <span class="ph-open">If it's urgent, call <b>(949) 749-8264</b>.</span></p>
           </div>
         </div>
       </div>
@@ -697,6 +700,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 (function(){
   const answers={q1:null,q2:null,q3:new Set()};
+  // After-hours callback for disqualified visitors (see [data-callback]).
+  let callback=false;
   const steps=document.querySelectorAll('.qstep');
   const bars=document.querySelectorAll('.progress i');
   const good=document.querySelector('[data-goodresult]');
@@ -753,13 +758,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       show('redirect');
       return;
     }
+    callback=false;
+    submitBtn.textContent='Request my free case review';
     good.style.display='block';
     show(4);
   });
   document.querySelectorAll('[data-back]').forEach(b=>{
     b.addEventListener('click',()=>{
       const cur=b.closest('.qstep').dataset.step;
-      if(cur==='redirect'||cur==='2')show(1);else if(cur==='3')show(2);else if(cur==='4')show(3);
+      if(cur==='redirect'||cur==='2')show(1);else if(cur==='3')show(2);else if(cur==='4')show(callback?'redirect':3);
     });
   });
   // ---- HubSpot Forms submission ----
@@ -821,6 +828,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function showErr(msg){errEl.textContent=msg;errEl.style.display='block';}
   function clearErr(){errEl.style.display='none';}
 
+  // After hours, disqualified visitors can leave their number instead of being told to call.
+  document.querySelectorAll('[data-callback]').forEach(function(b){
+    b.addEventListener('click',function(){
+      callback=true;
+      good.style.display='none';
+      submitBtn.textContent='Request my call back';
+      show(4);
+    });
+  });
   submitBtn.addEventListener('click',()=>{
     clearErr();
     if(!(fPhone.value||'').trim()){showErr('Please enter your phone number so we can reach you.');fPhone.focus();return;}
@@ -851,6 +867,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if(res.ok)return null;
       return res.json().catch(()=>({})).then(data=>{throw data;});
     }).then(()=>{
+      // Callback requests from disqualified visitors confirm on-page and never load /thank-you,
+      // because GTM counts the Thank You Google Ads conversion on any /thank-you page load.
+      if(callback){
+        const dm=document.querySelector('[data-donemsg]');
+        if(dm)dm.textContent='Our intake team will call you back during business hours (Monday–Friday, 9am–5pm Pacific).';
+        try{window.dataLayer=window.dataLayer||[];dataLayer.push({event:'after_hours_callback'});}catch(e){}
+        show('done');
+        return;
+      }
       // Save the lead's user_data for Google Ads enhanced conversions; fired on the thank-you page.
       try{RLG_EC.save({first_name:fFirst.value,last_name:fLast.value,email:fEmail.value,phone:fPhone.value});}catch(e){}
       window.location.assign('/meta-employment/thank-you');
