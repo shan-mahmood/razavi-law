@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Phone hours: number shows Mon-Fri 9am-5pm Pacific only. Any other time (incl. all weekend) the page is form-only.
+     Sets html.phone-open / html.phone-closed before first paint and rechecks every minute.
+     QA override: add ?phone=open or ?phone=closed to the URL. -->
+<script>
+(function(){
+  var root=document.documentElement;
+  function forced(){var m=/[?&]phone=(open|closed)\b/.exec(location.search);return m?m[1]:null;}
+  function isOpen(){
+    var f=forced();if(f)return f==='open';
+    try{
+      var wd='',h=-1;
+      new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',weekday:'short',hour:'numeric',hourCycle:'h23'}).formatToParts(new Date()).forEach(function(p){
+        if(p.type==='weekday')wd=p.value;else if(p.type==='hour')h=parseInt(p.value,10);
+      });
+      return /^(Mon|Tue|Wed|Thu|Fri)$/.test(wd)&&h>=9&&h<17;
+    }catch(e){return false;}
+  }
+  function apply(){var o=isOpen();root.classList.toggle('phone-open',o);root.classList.toggle('phone-closed',!o);return o;}
+  window.RLG_PHONE_OPEN=apply;
+  apply();
+  setInterval(apply,60000);
+})();
+</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -362,6 +385,14 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
   .ib-image img{max-width:420px}
   .ib-cta .callcta{width:100%;justify-content:center}
 }
+
+/* ---------- PHONE HOURS GATE (see script at top of <head>) ---------- */
+.phone-closed .ph-open{display:none!important}
+.phone-open .ph-closed{display:none!important}
+.redirect .redirect-hours{color:var(--text);font-weight:600}
+@media(max-width:560px){
+  .phone-closed .nav-review{display:inline-flex;font-size:14px;padding:9px 13px}
+}
 </style>
 </head>
 <body>
@@ -385,9 +416,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </defs>
 </svg></a>
     <div class="nav-right">
-      <a class="nav-phone" href="tel:+19495001926"><small>Free consultation</small>(949) 500-1926</a>
+      <a class="nav-phone ph-open" href="tel:+19495001926"><small>Free consultation</small>(949) 500-1926</a>
       <a class="btn nav-review" href="#check">Free Case Review</a>
-      <a class="btn nav-call" href="tel:+19495001926"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>(949) 500-1926</span></a>
+      <a class="btn nav-call ph-open" href="tel:+19495001926"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>(949) 500-1926</span></a>
     </div>
   </div>
 </header>
@@ -415,7 +446,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="trust-item"><span class="dotmark"></span> Se habla español</span>
     </div>
 
-    <div class="ib-cta">
+    <div class="ib-cta ph-open">
       <a class="callcta" href="tel:+19495001926"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Call (949) 500-1926</span></a>
       <p class="callcta-note">Free consultation · No fee unless we win · Se habla español</p>
     </div>
@@ -488,7 +519,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="redirect">
             <h3 data-rtitle>Let's talk directly.</h3>
             <p data-rbody>Your situation may still qualify, but it's best handled by phone with our intake team.</p>
-            <a class="btn" href="tel:+19495001926">Call (949) 500-1926</a>
+            <a class="btn ph-open" href="tel:+19495001926">Call (949) 500-1926</a>
+            <p class="ph-closed redirect-hours">Our intake line is open Monday–Friday, <span style="white-space:nowrap">9am–5pm</span> Pacific. Check back during those hours to reach us by phone.</p>
             <div class="nav-btns" style="justify-content:center;margin-top:14px"><button class="back" data-back>Back</button></div>
           </div>
         </div>
@@ -496,7 +528,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="result-ok">
             <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></div>
             <h3>Request received.</h3>
-            <p>An attorney from Razavi Law Group will contact you shortly. If it's urgent, call <b>(949) 500-1926</b>.</p>
+            <p>An attorney from Razavi Law Group will contact you shortly. <span class="ph-open">If it's urgent, call <b>(949) 500-1926</b>.</span></p>
           </div>
         </div>
       </div>
@@ -626,7 +658,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="acc-item">
         <button class="acc-q">I'm still employed. Can you still help?</button>
-        <div class="acc-a"><p>This page is focused on employees who've already been let go. If you're facing serious harassment or retaliation while still employed, call us directly at (949) 500-1926 and our team will point you in the right direction.</p></div>
+        <div class="acc-a"><p>This page is focused on employees who've already been let go. If you're facing serious harassment or retaliation while still employed, <span class="ph-open">call us directly at (949) 500-1926</span><span class="ph-closed">contact us during business hours (Monday–Friday, 9am–5pm Pacific)</span> and our team will point you in the right direction.</p></div>
       </div>
     </div>
   </div>
@@ -639,7 +671,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p>A free, confidential case review with a California employment attorney. No fee unless we win.</p>
     <div class="btns">
       <a class="btn" href="#check">Start my free case review</a>
-      <a class="btn btn--ghost" href="tel:+19495001926">Call (949) 500-1926</a>
+      <a class="btn btn--ghost ph-open" href="tel:+19495001926">Call (949) 500-1926</a>
     </div>
   </div>
 </section>
@@ -655,7 +687,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="foot-links">
         <div><h4>Practice Areas</h4><a href="#">Wrongful Termination</a><a href="#">Discrimination</a><a href="#">Retaliation</a><a href="#">Unpaid Wages</a></div>
         <div><h4>Offices</h4><a href="#">Santa Ana</a><a href="#">Riverside</a><a href="#">Bakersfield</a><a href="#">West Hollywood</a></div>
-        <div><h4>Contact</h4><a href="tel:+19495001926">(949) 500-1926</a><a href="#">2670 N Main St, Fl 7<br>Santa Ana, CA 92705</a></div>
+        <div><h4>Contact</h4><a class="ph-open" href="tel:+19495001926">(949) 500-1926</a><a href="#">2670 N Main St, Fl 7<br>Santa Ana, CA 92705</a></div>
       </div>
     </div>
     <p class="disclaimer">This website is attorney advertising. The information provided is for general purposes only and is not, nor is it intended to be, legal advice. Contacting Razavi Law Group does not create an attorney–client relationship. No representation is made that the quality of the legal services to be performed is greater than the quality of legal services performed by other lawyers. Prior results do not guarantee a similar outcome. &copy; 2026 Razavi Law Group. All rights reserved.</p>
@@ -825,7 +857,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }).catch(err=>{
       submitBtn.disabled=false;
       submitBtn.textContent=origLabel;
-      let msg='Something went wrong submitting your request. Please try again, or call (949) 500-1926.';
+      let msg='Something went wrong submitting your request. Please try again'+(window.RLG_PHONE_OPEN&&RLG_PHONE_OPEN()?', or call (949) 500-1926.':'.');
       if(err&&Array.isArray(err.errors)&&err.errors.length){
         const invalidEmail=err.errors.some(e=>String(e.errorType||'').indexOf('EMAIL')>-1||/email/i.test(e.message||''));
         if(invalidEmail)msg='Please enter a valid email address so we can reach you.';
