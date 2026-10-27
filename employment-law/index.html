@@ -598,7 +598,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="acc-item">
         <button class="acc-q">I'm still employed. Can you still help?</button>
-        <div class="acc-a"><p>Our free case review is only for people whose employment has already ended, and we're not able to advise on a current job situation. If you're fired, laid off, or forced to resign, please contact us again through the case check above.</p></div>
+        <div class="acc-a"><p>Our free case review is limited to those whose employment has ended, whether fired, resigned, or laid off. We cannot provide legal advice or guidance regarding your current employment situation. Please contact us again when your employment ends.</p></div>
       </div>
     </div>
   </div>
@@ -662,7 +662,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       b.classList.add('sel');
       // Still employed or quit voluntarily: the case check ends here.
       if(answers.q1==='employed'){
-        disqualify('still_employed',"Contact us again once your employment has ended.","Our free case review is only for people who are no longer with the employer, and we can't advise on a current job situation. If you're fired, laid off, or forced to resign, come back and complete this case check.");
+        disqualify('still_employed',"Contact us again once your employment has ended.","Our free case review is limited to those whose employment has ended, whether fired, resigned, or laid off. We cannot provide legal advice or guidance regarding your current employment situation. Please contact us again when your employment ends.");
       }else if(answers.q1==='quit'){
         disqualify('quit_voluntarily',"This review isn't a fit for voluntary resignations.","Our free case review is for employees who were fired, laid off, or forced out. If you left your job voluntarily, we're not able to take on your case through this page.",DQ_NOTE);
       }else{hsSubmitPartial();setTimeout(function(){show(2);},110);}
