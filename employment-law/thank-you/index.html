@@ -1,29 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Phone hours: number shows Mon-Fri 9am-5pm Pacific only. Any other time (incl. all weekend) the page is form-only.
-     Sets html.phone-open / html.phone-closed before first paint and rechecks every minute.
-     QA override: add ?phone=open or ?phone=closed to the URL. -->
-<script>
-(function(){
-  var root=document.documentElement;
-  function forced(){var m=/[?&]phone=(open|closed)\b/.exec(location.search);return m?m[1]:null;}
-  function isOpen(){
-    var f=forced();if(f)return f==='open';
-    try{
-      var wd='',h=-1;
-      new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',weekday:'short',hour:'numeric',hourCycle:'h23'}).formatToParts(new Date()).forEach(function(p){
-        if(p.type==='weekday')wd=p.value;else if(p.type==='hour')h=parseInt(p.value,10);
-      });
-      return /^(Mon|Tue|Wed|Thu|Fri)$/.test(wd)&&h>=9&&h<17;
-    }catch(e){return false;}
-  }
-  function apply(){var o=isOpen();root.classList.toggle('phone-open',o);root.classList.toggle('phone-closed',!o);return o;}
-  window.RLG_PHONE_OPEN=apply;
-  apply();
-  setInterval(apply,60000);
-})();
-</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -111,8 +88,6 @@ a{color:inherit}
 header{border-bottom:1px solid rgba(255,255,255,.16)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{font-family:var(--font-display);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:15px;text-decoration:none;color:#fff}
-.nav-phone{color:#fff;text-decoration:none;font-weight:600;font-size:16px;font-family:var(--font-display);white-space:nowrap}
-.nav-phone small{display:block;color:var(--muted-dark);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
 main{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:56px 0}
 .badge{width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 26px}
 .badge svg{width:36px;height:36px}
@@ -125,9 +100,6 @@ main p b{color:#fff}
 .btn--ghost{background:transparent;border:1.5px solid rgba(255,255,255,.5);color:#fff}
 .btn--ghost:hover{background:rgba(255,255,255,.1)}
 
-/* ---------- PHONE HOURS GATE (see script at top of <head>) ---------- */
-.phone-closed .ph-open{display:none!important}
-.phone-open .ph-closed{display:none!important}
 </style>
 </head>
 <body>
@@ -139,7 +111,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
     <div class="nav">
       <a class="brand" href="/">Razavi Law Group</a>
-      <a class="nav-phone ph-open" href="tel:+19495001926"><small>Free consultation</small>(949) 500-1926</a>
     </div>
   </div>
 </header>
@@ -147,9 +118,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
     <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></div>
     <h1>Thank you — your request has been received.</h1>
-    <p>An attorney from Razavi Law Group will review your case and contact you shortly. <span class="ph-open">If your matter is urgent, call us now at <b>(949) 500-1926</b>.</span></p>
+    <p>An attorney from Razavi Law Group will review your case and contact you shortly.</p>
     <div class="actions">
-      <a class="btn ph-open" href="tel:+19495001926">Call (949) 500-1926</a>
       <a class="btn btn--ghost" href="/">Return to home</a>
     </div>
   </div>

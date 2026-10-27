@@ -1,29 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Phone hours: number shows Mon-Fri 9am-5pm Pacific only. Any other time (incl. all weekend) the page is form-only.
-     Sets html.phone-open / html.phone-closed before first paint and rechecks every minute.
-     QA override: add ?phone=open or ?phone=closed to the URL. -->
-<script>
-(function(){
-  var root=document.documentElement;
-  function forced(){var m=/[?&]phone=(open|closed)\b/.exec(location.search);return m?m[1]:null;}
-  function isOpen(){
-    var f=forced();if(f)return f==='open';
-    try{
-      var wd='',h=-1;
-      new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',weekday:'short',hour:'numeric',hourCycle:'h23'}).formatToParts(new Date()).forEach(function(p){
-        if(p.type==='weekday')wd=p.value;else if(p.type==='hour')h=parseInt(p.value,10);
-      });
-      return /^(Mon|Tue|Wed|Thu|Fri)$/.test(wd)&&h>=9&&h<17;
-    }catch(e){return false;}
-  }
-  function apply(){var o=isOpen();root.classList.toggle('phone-open',o);root.classList.toggle('phone-closed',!o);return o;}
-  window.RLG_PHONE_OPEN=apply;
-  apply();
-  setInterval(apply,60000);
-})();
-</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -146,10 +123,6 @@ header{position:sticky;top:0;z-index:50;background:var(--black);border-bottom:1p
 .brand{display:flex;align-items:center;line-height:1;text-decoration:none}
 .brand svg{height:34px;width:auto;display:block}
 .nav-right{display:flex;align-items:center;gap:22px}
-.nav-phone{color:#fff;text-decoration:none;font-weight:600;font-size:16px;font-family:var(--font-display);white-space:nowrap}
-.nav-phone small{display:block;color:var(--muted-dark);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
-.nav-call{display:none;gap:8px;padding:11px 18px;font-size:15px;white-space:nowrap}
-.nav-call svg{width:18px;height:18px;flex:none}
 
 /* ---------- HERO (imposing brand statement) ---------- */
 .hero{background:var(--grad);color:#fff;overflow:hidden}
@@ -181,10 +154,6 @@ header{position:sticky;top:0;z-index:50;background:var(--black);border-bottom:1p
 .qual-steps li:first-child{border-top:none}
 .qual-steps .num{width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
 .qual-copy p b{color:var(--text);font-weight:600}
-.callcta{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:#fff;font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1;padding:18px 32px;border-radius:3px;text-decoration:none;margin-top:26px;transition:background .16s ease}
-.callcta:hover{background:var(--red-hover)}
-.callcta svg{width:22px;height:22px;flex:none}
-.callcta-note{margin-top:11px;font-size:13px;color:var(--muted);font-weight:500}
 
 /* ---------- QUALIFIER CARD ---------- */
 .card{background:var(--paper);color:var(--text);border-radius:4px;overflow:hidden;border:1px solid var(--line);border-top:4px solid var(--red)}
@@ -320,7 +289,6 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
   .att-copy p{margin-left:auto;margin-right:auto}
   .fit-grid,.rev-grid{grid-template-columns:1fr}
   .tgrid{grid-template-columns:1fr}
-  .nav-phone small{display:none}
   .section{padding:52px 0}
 }
 @media(max-width:560px){
@@ -329,21 +297,17 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
   .nav{height:64px}
   .nav-right{gap:12px}
   .brand svg{height:25px}
-  .nav-phone{display:none}
-  .nav-review{display:none}
-  .nav-call{display:inline-flex;font-size:14px;padding:9px 13px;gap:7px}
-  .nav-call svg{width:16px;height:16px}
+  .nav-review{font-size:14px;padding:9px 13px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 /* ---------- INTAKE HERO (merged brand + case check) ---------- */
 .hero .intake{padding:44px 24px 60px}
 .intake{display:grid;grid-template-columns:1.02fr 1.06fr;column-gap:48px;row-gap:14px;align-items:start;
-  grid-template-areas:"head image" "copy card" "trust card" "cta card" "points card"}
+  grid-template-areas:"head image" "copy card" "trust card" "points card"}
 .ib-head{grid-area:head;align-self:end}
 .ib-copy{grid-area:copy;margin-top:6px}
 .ib-trust{grid-area:trust;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
-.ib-cta{grid-area:cta}
 .ib-points{grid-area:points}
 .ib-image{grid-area:image;align-self:end;justify-self:center;width:100%}
 .ib-card{grid-area:card;position:relative;z-index:2;margin-top:-26px;scroll-margin-top:90px}
@@ -362,9 +326,6 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
 /* trust line */
 .ib-trust .trust-item{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#fbeeec;font-weight:500}
 .ib-trust .dotmark{width:5px;height:5px;background:#fff;border-radius:50%;flex:none}
-/* call cta */
-.ib-cta .callcta{margin-top:4px}
-.ib-cta .callcta-note{color:#d9c4c1}
 /* three compact process points (no numbered circles) */
 .ib-points{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:9px}
 .ib-points li{position:relative;padding-left:26px;font-size:14.5px;color:#f3e7e5;font-weight:500;line-height:1.4}
@@ -378,21 +339,15 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
   .ib-copy{order:2;margin-top:14px}
   .ib-trust{order:3;margin-top:14px}
   .ib-card{order:4;margin-top:22px}
-  .ib-cta{order:5;margin-top:22px;text-align:center}
   .ib-image{order:6;margin-top:22px}
   .ib-points{order:7;margin-top:22px}
   .intake .mark{font-size:clamp(40px,12vw,74px)}
   .ib-image img{max-width:420px}
-  .ib-cta .callcta{width:100%;justify-content:center}
 }
 
-/* ---------- PHONE HOURS GATE (see script at top of <head>) ---------- */
-.phone-closed .ph-open{display:none!important}
-.phone-open .ph-closed{display:none!important}
-.redirect .redirect-hours{color:var(--text);font-weight:600}
-@media(max-width:560px){
-  .phone-closed .nav-review{display:inline-flex;font-size:14px;padding:9px 13px}
-}
+/* ---------- DISQUALIFIED PANEL ---------- */
+.redirect .redirect-note{font-size:12.5px;color:var(--muted)}
+.redirect .redirect-note:empty{display:none}
 </style>
 </head>
 <body>
@@ -416,9 +371,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </defs>
 </svg></a>
     <div class="nav-right">
-      <a class="nav-phone ph-open" href="tel:+19495001926"><small>Free consultation</small>(949) 500-1926</a>
       <a class="btn nav-review" href="#check">Free Case Review</a>
-      <a class="btn nav-call ph-open" href="tel:+19495001926"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>(949) 500-1926</span></a>
     </div>
   </div>
 </header>
@@ -444,11 +397,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="trust-item"><span class="stars dark"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.6L18 7.3l-4 4 1 5.7L10 14l-5 3 1-5.7-4-4 5.4-.7z"/></svg></span> 5.0 on Google</span>
         <span class="trust-item"><span class="dotmark"></span> No fee unless we win</span>
         <span class="trust-item"><span class="dotmark"></span> Se habla español</span>
-    </div>
-
-    <div class="ib-cta ph-open">
-      <a class="callcta" href="tel:+19495001926"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Call (949) 500-1926</span></a>
-      <p class="callcta-note">Free consultation · No fee unless we win · Se habla español</p>
     </div>
 
     <ul class="ib-points">
@@ -517,21 +465,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="qstep" data-step="redirect">
           <div class="redirect">
-            <h3 data-rtitle>Let's talk directly.</h3>
-            <p data-rbody>Your situation may still qualify, but it's best handled by phone with our intake team.</p>
-            <a class="btn ph-open" href="tel:+19495001926">Call (949) 500-1926</a>
-            <div class="ph-closed">
-              <p class="redirect-hours">Our intake line is closed right now (open Monday–Friday, <span style="white-space:nowrap">9am–5pm</span> Pacific). Leave your number and our team will call you back.</p>
-              <button class="btn" data-callback>Request a call back</button>
-            </div>
+            <h3 data-rtitle></h3>
+            <p data-rbody></p>
+            <p class="redirect-note" data-rnote></p>
             <div class="nav-btns" style="justify-content:center;margin-top:14px"><button class="back" data-back>Back</button></div>
-          </div>
-        </div>
-        <div class="qstep" data-step="done">
-          <div class="result-ok">
-            <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></div>
-            <h3>Request received.</h3>
-            <p data-donemsg>An attorney from Razavi Law Group will contact you shortly. <span class="ph-open">If it's urgent, call <b>(949) 500-1926</b>.</span></p>
           </div>
         </div>
       </div>
@@ -649,7 +586,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="acc-item">
         <button class="acc-q">How long do I have to file a claim?</button>
-        <div class="acc-a"><p>Deadlines vary by the type of claim, and some are shorter than people expect. Because evidence and witnesses fade over time, the sooner you speak with an attorney after being let go, the better. If your situation is older, it's still worth a quick call to check.</p></div>
+        <div class="acc-a"><p>Deadlines vary by the type of claim, and some are shorter than people expect. Because evidence and witnesses fade over time, the sooner you speak with an attorney after being let go, the better.</p></div>
       </div>
       <div class="acc-item">
         <button class="acc-q">What will this cost me?</button>
@@ -661,7 +598,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="acc-item">
         <button class="acc-q">I'm still employed. Can you still help?</button>
-        <div class="acc-a"><p>This page is focused on employees who've already been let go. If you're facing serious harassment or retaliation while still employed, <span class="ph-open">call us directly at (949) 500-1926</span><span class="ph-closed">contact us during business hours (Monday–Friday, 9am–5pm Pacific)</span> and our team will point you in the right direction.</p></div>
+        <div class="acc-a"><p>Our free case review is only for people whose employment has already ended, and we're not able to advise on a current job situation. If you're fired, laid off, or forced to resign, please contact us again through the case check above.</p></div>
       </div>
     </div>
   </div>
@@ -674,7 +611,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p>A free, confidential case review with a California employment attorney. No fee unless we win.</p>
     <div class="btns">
       <a class="btn" href="#check">Start my free case review</a>
-      <a class="btn btn--ghost ph-open" href="tel:+19495001926">Call (949) 500-1926</a>
     </div>
   </div>
 </section>
@@ -690,7 +626,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="foot-links">
         <div><h4>Practice Areas</h4><a href="#">Wrongful Termination</a><a href="#">Discrimination</a><a href="#">Retaliation</a><a href="#">Unpaid Wages</a></div>
         <div><h4>Offices</h4><a href="#">Santa Ana</a><a href="#">Riverside</a><a href="#">Bakersfield</a><a href="#">West Hollywood</a></div>
-        <div><h4>Contact</h4><a class="ph-open" href="tel:+19495001926">(949) 500-1926</a><a href="#">2670 N Main St, Fl 7<br>Santa Ana, CA 92705</a></div>
+        <div><h4>Contact</h4><a href="#">2670 N Main St, Fl 7<br>Santa Ana, CA 92705</a></div>
       </div>
     </div>
     <p class="disclaimer">This website is attorney advertising. The information provided is for general purposes only and is not, nor is it intended to be, legal advice. Contacting Razavi Law Group does not create an attorney–client relationship. No representation is made that the quality of the legal services to be performed is greater than the quality of legal services performed by other lawyers. Prior results do not guarantee a similar outcome. &copy; 2026 Razavi Law Group. All rights reserved.</p>
@@ -700,13 +636,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 (function(){
   const answers={q1:null,q2:null,q3:new Set()};
-  // After-hours callback for disqualified visitors (see [data-callback]).
-  let callback=false;
   const steps=document.querySelectorAll('.qstep');
   const bars=document.querySelectorAll('.progress i');
   const good=document.querySelector('[data-goodresult]');
-  const rTitle=document.querySelector('[data-rtitle]'),rBody=document.querySelector('[data-rbody]');
-  function setRedirect(t,b){if(rTitle)rTitle.textContent=t;if(rBody)rBody.textContent=b;}
   function show(step){
     steps.forEach(s=>s.classList.toggle('active',s.dataset.step===String(step)));
     const n=parseInt(step,10);
@@ -714,18 +646,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const card=document.getElementById('check');
     if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
   }
+  const rTitle=document.querySelector('[data-rtitle]'),rBody=document.querySelector('[data-rbody]'),rNote=document.querySelector('[data-rnote]');
+  const DQ_NOTE="This isn't legal advice. Filing deadlines may apply, so consider speaking with another attorney.";
+  // Disqualified answers end the case check here: no contact step, no phone, no HubSpot submission.
+  // The dataLayer event only counts how often each path happens; it is not a conversion.
+  function disqualify(reason,t,b,note){
+    if(rTitle)rTitle.textContent=t;if(rBody)rBody.textContent=b;if(rNote)rNote.textContent=note||'';
+    try{window.dataLayer=window.dataLayer||[];dataLayer.push({event:'case_check_disqualified',dq_reason:reason});}catch(e){}
+    show('redirect');
+  }
   document.querySelectorAll('[data-q1]').forEach(function(b){
     b.addEventListener('click',function(){
       answers.q1=b.dataset.q1;
       document.querySelectorAll('[data-q1]').forEach(function(x){x.classList.remove('sel');});
       b.classList.add('sel');
-      hsSubmitPartial();
-      // Disqualify people who quit voluntarily or are still employed — route them to a call.
-      if(answers.q1==='quit'||answers.q1==='employed'){
-        if(answers.q1==='employed'){setRedirect("Still employed? Let's talk directly.","This review is built for people who've already been let go. If you're facing harassment or retaliation right now, our team can help by phone.");}
-        else{setRedirect("Resigned on your own? A quick call is best.","If you truly left voluntarily there may not be a claim — but if you were pressured or something improper happened, call and we'll take a closer look.");}
-        show('redirect');
-      }else{setTimeout(function(){show(2);},110);}
+      // Still employed or quit voluntarily: the case check ends here.
+      if(answers.q1==='employed'){
+        disqualify('still_employed',"Contact us again once your employment has ended.","Our free case review is only for people who are no longer with the employer, and we can't advise on a current job situation. If you're fired, laid off, or forced to resign, come back and complete this case check.");
+      }else if(answers.q1==='quit'){
+        disqualify('quit_voluntarily',"This review isn't a fit for voluntary resignations.","Our free case review is for employees who were fired, laid off, or forced out. If you left your job voluntarily, we're not able to take on your case through this page.",DQ_NOTE);
+      }else{hsSubmitPartial();setTimeout(function(){show(2);},110);}
     });
   });
   document.querySelectorAll('[data-q2]').forEach(function(b){
@@ -733,12 +673,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       answers.q2=b.dataset.q2;
       document.querySelectorAll('[data-q2]').forEach(function(x){x.classList.remove('sel');});
       b.classList.add('sel');
-      hsSubmitPartial();
-      // Disqualify matters older than a year (approaching filing deadlines) — route them to a call.
+      // Matters older than a year: the case check ends here.
       if(answers.q2==='2y'||answers.q2==='old'){
-        setRedirect("This may be past the filing deadline.","California has strict deadlines, and older claims can be time-barred. If you'd like us to double-check your specific dates, give us a call.");
-        show('redirect');
-      }else{setTimeout(function(){show(3);},110);}
+        disqualify('over_1_year',"This may be past the filing deadline.","California has strict deadlines to file employment claims, and this case review only covers terminations from the last 12 months.",DQ_NOTE);
+      }else{hsSubmitPartial();setTimeout(function(){show(3);},110);}
     });
   });
   document.querySelectorAll('[data-q3]').forEach(b=>{
@@ -750,23 +688,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   });
   document.querySelector('[data-next3]').addEventListener('click',function(){
-    hsSubmitPartial();
-    // Disqualify when no qualifying issue was selected — route them to a call.
+    // No qualifying issue selected: the case check ends here.
     var positives=[...answers.q3].filter(function(x){return x!=='none';});
     if(positives.length===0){
-      setRedirect("Let's talk it through.","Based on what you selected, this one is best sorted out in a quick call so we can find out whether there's a claim. Our intake team can help.");
-      show('redirect');
+      disqualify('no_qualifying_issue',"This doesn't appear to be a case we can take on.","Our employment practice handles terminations involving discrimination, retaliation, protected leave, unpaid wages, or harassment. Based on your answers, your situation falls outside what we handle.",DQ_NOTE);
       return;
     }
-    callback=false;
-    submitBtn.textContent='Request my free case review';
+    hsSubmitPartial();
     good.style.display='block';
     show(4);
   });
   document.querySelectorAll('[data-back]').forEach(b=>{
     b.addEventListener('click',()=>{
       const cur=b.closest('.qstep').dataset.step;
-      if(cur==='redirect'||cur==='2')show(1);else if(cur==='3')show(2);else if(cur==='4')show(callback?'redirect':3);
+      if(cur==='redirect'||cur==='2')show(1);else if(cur==='3')show(2);else if(cur==='4')show(3);
     });
   });
   // ---- HubSpot Forms submission ----
@@ -828,15 +763,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function showErr(msg){errEl.textContent=msg;errEl.style.display='block';}
   function clearErr(){errEl.style.display='none';}
 
-  // After hours, disqualified visitors can leave their number instead of being told to call.
-  document.querySelectorAll('[data-callback]').forEach(function(b){
-    b.addEventListener('click',function(){
-      callback=true;
-      good.style.display='none';
-      submitBtn.textContent='Request my call back';
-      show(4);
-    });
-  });
   submitBtn.addEventListener('click',()=>{
     clearErr();
     if(!(fPhone.value||'').trim()){showErr('Please enter your phone number so we can reach you.');fPhone.focus();return;}
@@ -867,22 +793,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if(res.ok)return null;
       return res.json().catch(()=>({})).then(data=>{throw data;});
     }).then(()=>{
-      // Callback requests from disqualified visitors confirm on-page and never load /thank-you,
-      // because GTM counts the Thank You Google Ads conversion on any /thank-you page load.
-      if(callback){
-        const dm=document.querySelector('[data-donemsg]');
-        if(dm)dm.textContent='Our intake team will call you back during business hours (Monday–Friday, 9am–5pm Pacific).';
-        try{window.dataLayer=window.dataLayer||[];dataLayer.push({event:'after_hours_callback'});}catch(e){}
-        show('done');
-        return;
-      }
       // Save the lead's user_data for Google Ads enhanced conversions; fired on the thank-you page.
       try{RLG_EC.save({first_name:fFirst.value,last_name:fLast.value,email:fEmail.value,phone:fPhone.value});}catch(e){}
       window.location.assign('/thank-you');
     }).catch(err=>{
       submitBtn.disabled=false;
       submitBtn.textContent=origLabel;
-      let msg='Something went wrong submitting your request. Please try again'+(window.RLG_PHONE_OPEN&&RLG_PHONE_OPEN()?', or call (949) 500-1926.':'.');
+      let msg='Something went wrong submitting your request. Please try again.';
       if(err&&Array.isArray(err.errors)&&err.errors.length){
         const invalidEmail=err.errors.some(e=>String(e.errorType||'').indexOf('EMAIL')>-1||/email/i.test(e.message||''));
         if(invalidEmail)msg='Please enter a valid email address so we can reach you.';
