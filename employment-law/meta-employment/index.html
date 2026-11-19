@@ -348,6 +348,15 @@ footer{background:var(--black);color:var(--muted-dark);padding:52px 0 30px;font-
   .ib-image img{max-width:420px}
 }
 
+/* ---------- SCREENING STEP ---------- */
+.scr{margin-bottom:14px}
+.scr-q{font-family:var(--font-display);font-size:14.5px;font-weight:600;margin:0 0 7px}
+.scr-opts{display:flex;gap:8px}
+.scr-opts .opt{margin-bottom:0;justify-content:center;padding:11px 12px}
+.scr-opts.col{flex-direction:column}
+.scr-opts.col .opt{justify-content:flex-start}
+.scr-err{font-size:12.5px;color:#c0392b;margin:2px 0 8px;display:none}
+
 /* ---------- DISQUALIFIED PANEL ---------- */
 .redirect .redirect-note{font-size:12.5px;color:var(--muted)}
 .redirect .redirect-note:empty{display:none}
@@ -392,8 +401,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="ib-copy">
       <span class="eyebrow on-dark">60-second case check</span>
-      <h2>Do you have a case?</h2>
-      <p>Recently <b>fired, laid off, or forced to resign</b> under circumstances that weren't right? Answer three quick questions and we'll tell you whether your situation is the kind we take on — before you spend time on a full consultation.</p>
+      <h2 data-angle-h>Do you have a case?</h2>
+      <p data-angle-p>Recently <b>fired, laid off, or forced to resign</b> under circumstances that weren't right? Answer a few quick questions and we'll tell you whether your situation is the kind we take on — before you spend time on a full consultation.</p>
     </div>
 
     <div class="ib-trust">
@@ -415,7 +424,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="card-head">
         <h2>Start your free case check</h2>
         <p>About 60 seconds. No cost, no obligation.</p>
-        <div class="progress"><i class="on" data-p="1"></i><i data-p="2"></i><i data-p="3"></i><i data-p="4"></i></div>
+        <div class="progress"><i class="on" data-p="1"></i><i data-p="2"></i><i data-p="3"></i><i data-p="4"></i><i data-p="5"></i></div>
       </div>
       <div class="card-body">
         <div class="qstep active" data-step="1">
@@ -423,7 +432,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p class="qhint">We focus on employees who are no longer with the company.</p>
           <button class="opt" data-q1="fired">I was fired or terminated</button>
           <button class="opt" data-q1="laidoff">I was laid off</button>
-          <button class="opt" data-q1="forced">I was forced to resign / pushed out</button>
+          <button class="opt" data-q1="forced">I was forced to resign or pushed out, and I've already left</button>
           <button class="opt" data-q1="quit">I quit voluntarily</button>
           <button class="opt" data-q1="employed">I'm still employed there</button>
         </div>
@@ -449,6 +458,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="nav-btns"><button class="back" data-back>Back</button><button class="btn btn--block" data-next3>Continue</button></div>
         </div>
         <div class="qstep" data-step="4">
+          <h3>A few quick checks</h3>
+          <p class="qhint">These help us confirm we can take on your case.</p>
+          <div class="scr" data-scr="ca">
+            <p class="scr-q">Did you work in California?</p>
+            <div class="scr-opts"><button class="opt" data-v="yes">Yes</button><button class="opt" data-v="no">No</button></div>
+          </div>
+          <div class="scr" data-scr="lawyer">
+            <p class="scr-q">Do you already have a lawyer for this?</p>
+            <div class="scr-opts"><button class="opt" data-v="no">No</button><button class="opt" data-v="yes">Yes</button></div>
+          </div>
+          <div class="scr" data-scr="employer">
+            <p class="scr-q">Who did you work for?</p>
+            <div class="scr-opts col"><button class="opt" data-v="private">A private company or nonprofit</button><button class="opt" data-v="government">A government agency (city, county, state, federal, or public school)</button><button class="opt" data-v="gig">A gig app (Uber, Lyft, DoorDash, Instacart)</button></div>
+          </div>
+          <div class="scr" data-scr="union">
+            <p class="scr-q">Were you in a union at this job?</p>
+            <div class="scr-opts"><button class="opt" data-v="no">No</button><button class="opt" data-v="yes">Yes</button></div>
+          </div>
+          <p class="scr-err" data-scr-err role="alert">Please answer each question to continue.</p>
+          <div class="nav-btns"><button class="back" data-back>Back</button><button class="btn btn--block" data-next4>Continue</button></div>
+        </div>
+        <div class="qstep" data-step="5">
           <div class="result-ok" data-goodresult style="display:none">
             <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></div>
             <h3>Your situation may qualify.</h3>
@@ -507,6 +538,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b7b0a9" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg> You resigned voluntarily</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b7b0a9" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg> The events were more than 1-2 years ago</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b7b0a9" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg> You simply disagree with your termination</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b7b0a9" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg> You already have a lawyer, worked for a government agency, or were in a union</li>
         </ul>
       </div>
     </div>
@@ -639,13 +671,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 (function(){
-  const answers={q1:null,q2:null,q3:new Set()};
+  const answers={q1:null,q2:null,q3:new Set(),scr:{}};
+  // ?angle= swaps the hero headline to match the ad (fixed copy only; nothing from the URL is rendered).
+  (function(){
+    var ANGLES={
+      speakup:{h:'Fired after speaking up?',p:'Complained to HR, reported a safety issue, or reported something illegal, <b>then lost your job within weeks</b>? That timing matters under California law. Answer a few quick questions and we\'ll tell you whether your situation is the kind we take on.'},
+      leave:{h:'Fired after medical leave?',p:'Took medical leave, asked for an accommodation, or got hurt on the job, <b>then lost your job</b>? That timing matters under California law. Answer a few quick questions and we\'ll tell you whether your situation is the kind we take on.'}
+    };
+    var ALIASES={speakup:'speakup',retaliation:'speakup',whistleblower:'speakup',leave:'leave',medical:'leave',disability:'leave'};
+    try{
+      var qs=new URLSearchParams(window.location.search);
+      // Google trigger-event ad groups arrive with utm_content={adgroupid} from the campaign URL suffix.
+      var AD_GROUP_ANGLE={'203027242558':'speakup','205934599390':'leave'};
+      var key=ALIASES[(qs.get('angle')||'').toLowerCase()]||AD_GROUP_ANGLE[qs.get('utm_content')||''];
+      var a=key&&ANGLES[key];if(!a)return;
+      var h=document.querySelector('[data-angle-h]'),p=document.querySelector('[data-angle-p]');
+      if(h)h.textContent=a.h;if(p)p.innerHTML=a.p;
+    }catch(e){}
+  })();
+  let lastStep=1;
   const steps=document.querySelectorAll('.qstep');
   const bars=document.querySelectorAll('.progress i');
   const good=document.querySelector('[data-goodresult]');
   function show(step){
     steps.forEach(s=>s.classList.toggle('active',s.dataset.step===String(step)));
     const n=parseInt(step,10);
+    if(!isNaN(n))lastStep=n;
     bars.forEach(b=>b.classList.toggle('on',!isNaN(n)&&parseInt(b.dataset.p,10)<=n));
     const card=document.getElementById('check');
     if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
@@ -699,13 +750,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return;
     }
     hsSubmitPartial();
-    good.style.display='block';
     show(4);
+  });
+  // ---- Screening step: one tap per question ----
+  const scrErr=document.querySelector('[data-scr-err]');
+  document.querySelectorAll('[data-scr]').forEach(function(g){
+    g.querySelectorAll('[data-v]').forEach(function(b){
+      b.addEventListener('click',function(){
+        answers.scr[g.dataset.scr]=b.dataset.v;
+        g.querySelectorAll('[data-v]').forEach(function(x){x.classList.remove('sel');});
+        b.classList.add('sel');
+        if(scrErr)scrErr.style.display='none';
+      });
+    });
+  });
+  document.querySelector('[data-next4]').addEventListener('click',function(){
+    var s=answers.scr;
+    if(!s.ca||!s.lawyer||!s.employer||!s.union){if(scrErr)scrErr.style.display='block';return;}
+    // Facts that rule a case out end the case check here, same as still employed.
+    if(s.ca==='no'){disqualify('outside_california',"We can only help with jobs in California.","Our free case review covers employees who worked in California. For a job in another state, an employment attorney licensed there is the right place to start.",DQ_NOTE);return;}
+    if(s.lawyer==='yes'){disqualify('has_attorney',"Please speak with your current attorney.","Since you already have a lawyer for this matter, they're the best person to advise you. We're not able to review cases that already have representation.");return;}
+    if(s.employer==='government'){disqualify('government_employer',"We can't review government-employer cases here.","Claims against a city, county, state, federal agency, or public school follow different rules and deadlines, and this case review doesn't cover them.",DQ_NOTE);return;}
+    if(s.employer==='gig'){disqualify('gig_worker',"This review doesn't cover gig-app work.","Our free case review is for employees. App-based drivers and delivery workers (Uber, Lyft, DoorDash, Instacart) fall outside what we handle through this page.",DQ_NOTE);return;}
+    if(s.union==='yes'){disqualify('union_member',"We can't review union-represented jobs here.","This case review doesn't cover jobs covered by a union contract. Your union representative can help you with next steps.",DQ_NOTE);return;}
+    hsSubmitPartial();
+    good.style.display='block';
+    show(5);
   });
   document.querySelectorAll('[data-back]').forEach(b=>{
     b.addEventListener('click',()=>{
       const cur=b.closest('.qstep').dataset.step;
-      if(cur==='redirect'||cur==='2')show(1);else if(cur==='3')show(2);else if(cur==='4')show(3);
+      if(cur==='redirect')show(lastStep||1);else if(cur==='2')show(1);else if(cur==='3')show(2);else if(cur==='4')show(3);else if(cur==='5')show(4);
     });
   });
   // ---- HubSpot Forms submission ----
@@ -717,11 +792,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const Q1_LABELS={fired:'I was Fired or Terminated',laidoff:'I was Laid Off',forced:'I was Forced to Resign / Pushed Out',quit:'I Quit Voluntarily',employed:"I'm Still Employed There"};
   const Q2_LABELS={'30d':'Within the Last 30 Days','6m':'1 - 6 Months Ago','12m':'6 -12 Months Ago','2y':'1 - 3 Years ago',old:'More Than 3 Years Ago'};
   const Q3_LABELS={discrimination:'Fired over my age, race, gender, religion, disability, or pregnancy',retaliation:'Fired after I reported harassment, discrimination, or something illegal',medical:'Fired after requesting medical/disability leave or an injury',wages:'Denied owed wages, overtime, or legally required breaks',harassment:'Experienced sexual harassment or a hostile work environment',none:"None of these / I'm not sure"};
+  // Screening answers -> HubSpot contact dropdowns (Paid Media Form fields). Values must match the options exactly.
+  const SCR_PROPS={ca:'intake_worked_in_california',lawyer:'intake_has_attorney',employer:'intake_employer_type',union:'intake_union_member'};
+  const SCR_LABELS={
+    ca:{yes:'Yes',no:'No'},
+    lawyer:{yes:'Yes',no:'No'},
+    employer:{private:'Private Company or Nonprofit',government:'Government Agency',gig:'Gig App'},
+    union:{yes:'Yes',no:'No'}
+  };
+  function scrFields(){
+    return Object.keys(SCR_PROPS).map(function(k){var v=answers.scr[k];return {name:SCR_PROPS[k],value:(v&&SCR_LABELS[k][v])||''};});
+  }
+  const SCR_NAMES=Object.keys(SCR_PROPS).map(function(k){return SCR_PROPS[k];});
+  // Safety net: if a screening field isn't on the HubSpot form yet, HubSpot rejects the whole
+  // submission (FIELD_NOT_IN_FORM_DEFINITION). Resend once without the screening fields so no lead is lost.
+  function postHS(fields,context){
+    function send(f){return fetch(HS_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({submittedAt:Date.now(),fields:f,context:context})});}
+    return send(fields).then(function(res){
+      if(res.ok||res.status!==400)return res;
+      return res.clone().json().catch(function(){return {};}).then(function(d){
+        var notInForm=d&&Array.isArray(d.errors)&&d.errors.some(function(e){return String(e.errorType||'')==='FIELD_NOT_IN_FORM_DEFINITION';});
+        if(!notInForm)return res;
+        return send(fields.filter(function(f){return SCR_NAMES.indexOf(f.name)===-1;}));
+      });
+    });
+  }
   // Multiple-checkbox value: HubSpot expects option values joined with ';'.
   function q3Value(){return [...answers.q3].map(function(x){return Q3_LABELS[x];}).filter(Boolean).join(';');}
 
   const submitBtn=document.querySelector('[data-submit]');
-  const step4=document.querySelector('.qstep[data-step="4"]');
+  const step4=document.querySelector('.qstep[data-step="5"]');
   const fFirst=step4.querySelector('input[autocomplete="given-name"]');
   const fLast=step4.querySelector('input[autocomplete="family-name"]');
   const fPhone=step4.querySelector('input[type="tel"]');
@@ -743,13 +843,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       {name:'intake_situation',value:Q1_LABELS[answers.q1]||''},
       {name:'intake_timeline',value:Q2_LABELS[answers.q2]||''},
       {name:'intake_issue',value:q3Value()}
-    ];
+    ].concat(scrFields());
     return raw.filter(function(f){return f.value!=='';});
   }
   function hsPost(fields){
     var context={pageUri:window.location.href,pageName:document.title};
     var h=getHutk();if(h)context.hutk=h;
-    return fetch(HS_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({submittedAt:Date.now(),fields:fields,context:context})});
+    return postHS(fields,context);
   }
   // Fire-and-forget partial capture after each section; failures never block the flow.
   function hsSubmitPartial(){
@@ -783,7 +883,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       {name:'intake_issue',value:q3Value()},
       // Optional SMS opt-in; omitted when unchecked so an earlier opt-in is never overwritten.
       {name:'transactional_sms_consent',value:(fSms&&fSms.checked)?'true':''}
-    ].filter(f=>f.value!=='');
+    ].concat(scrFields()).filter(f=>f.value!=='');
     const body={
       submittedAt:Date.now(),
       fields:fields,
@@ -792,11 +892,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     submitBtn.disabled=true;
     const origLabel=submitBtn.textContent;
     submitBtn.textContent='Submitting…';
-    fetch(HS_ENDPOINT,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(body)
-    }).then(res=>{
+    postHS(body.fields,body.context).then(res=>{
       if(res.ok)return null;
       return res.json().catch(()=>({})).then(data=>{throw data;});
     }).then(()=>{
